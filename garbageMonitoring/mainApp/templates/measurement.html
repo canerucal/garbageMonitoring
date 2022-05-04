@@ -72,16 +72,12 @@
       {% include 'partials/show.html' %}
     </div>
 
-    {% if submitted %}
-
-    {% else %}
     <form method="POST" class="success-form">
       {% csrf_token %}
       <div class="save-button">
-        <input type="submit" class="btn btn-primary" value="Kutuyu Boşalt"></input>
+        {% render_field form.ratio class="btn btn-primary" type="submit" value="Kutuyu Boşalt" id="submit-button" %}
       </div>
     </form>
-    {% endif %}
 
     <div id="map"></div>
     <script>
