@@ -34,7 +34,7 @@ def index(request):
 
 def get_ratio(request):
     binCapacity = 0
-    distance = 100
+    distance = 19
 
     if distance >= 0:
         if 0 < distance <= 20:
