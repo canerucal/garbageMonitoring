@@ -1,0 +1,62 @@
+body {
+  font-family: "Poppins", sans-serif;
+}
+
+.form-control {
+  border-radius: 1.25em;
+  width: 100%;
+}
+
+.form-wrapper {
+  margin-top: 1%;
+}
+
+.login-form {
+  padding-left: 35%;
+  padding-right: 35%;
+}
+
+.login-btn {
+  width: 100%;
+  border-radius: 1.875em;
+  background-color: #7dc8ff;
+  border-color: #ffffff;
+  margin-bottom: 5%;
+}
+
+.login-btn:hover {
+  background-color: #4511ff;
+}
+
+.forgot-password-btn {
+  color: #000000;
+}
+
+.forgot-password-btn:hover {
+  color: #4511ff;
+}
+
+.header {
+  background-color: #b0deff;
+  height: 45vh;
+}
+
+.brand-name, .brand-logo {
+    text-align: center;
+    align-items: center;
+}
+
+.brand-img {
+    height: auto;
+    width: 40%;
+    margin-top: 2%;
+}
+
+.brand-name {
+    font-size: 75px;
+    font-weight: 400;
+}
+
+.white-text {
+    color: #ffffff;
+}

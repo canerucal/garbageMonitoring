@@ -1,4 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
+from django.contrib.auth import authenticate, login
+from django.contrib import messages
 #import RPi.GPIO as GPIO
 
 # bu alana hesaplama gelecek, index fonksiyonunda simüle edildi. canlı çalışması için while döngüsü kurulmalı
@@ -29,7 +31,6 @@ from django.shortcuts import render
     # distance = round(distance, 2)
 
 def index(request):
-
     return render(request, 'index.html')
 
 def get_ratio(request):
@@ -63,3 +64,9 @@ def records(request):
 
 def efficiency(request):
     return render(request, 'efficiency.html')
+
+def loginUser(request):
+    return render(request, 'login.html')
+
+def landing(request):
+    return render(request, 'landing.html')
