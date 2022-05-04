@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
+import geocoder
 #import RPi.GPIO as GPIO
 
 # bu alana hesaplama gelecek, index fonksiyonunda simüle edildi. canlı çalışması için while döngüsü kurulmalı
@@ -31,7 +32,13 @@ from django.contrib import messages
     # distance = round(distance, 2)
 
 def measurement(request):
-    return render(request, 'measurement.html')
+    g = geocoder.ip('me')
+    latitude = g.latlng[0]
+    longitude = g.latlng[1]
+    return render(request, 'measurement.html',{
+        'latitude': latitude,
+        'longitude' : longitude
+    })
 
 def get_ratio(request):
     binCapacity = 0

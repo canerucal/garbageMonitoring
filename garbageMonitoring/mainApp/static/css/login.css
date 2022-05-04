@@ -8,7 +8,7 @@ body {
 }
 
 .form-wrapper {
-  margin-top: 1%;
+  margin-top: 2%;
 }
 
 .login-form {
@@ -28,23 +28,19 @@ body {
   background-color: #4511ff;
 }
 
-.forgot-password-btn {
-  color: #000000;
-}
-
-.forgot-password-btn:hover {
-  color: #4511ff;
-}
-
 .header {
   background-color: #b0deff;
-  height: 45vh;
+  height: 42vh;
 }
 
 .brand-name,
 .brand-logo {
   text-align: center;
   align-items: center;
+}
+
+.brand-name {
+  padding-top: 2%;
 }
 
 .brand-img {
