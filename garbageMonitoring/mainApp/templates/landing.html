@@ -31,9 +31,16 @@
       <div class="brand-name">
         Garbage <span class="white-text">Measure</span>
       </div>
+      {% if messages %} 
+        {% for message in messages %}
+        <div class="welcome-message">
+          Hoşgeldin {{ user.username }}
+        </div>
+        {% endfor %}
+      {% endif %}
     </div>
     <div class="container">
-      <a href="index">
+      <a href="measurement">
         <button type="button" class="btn btn-primary">
           <img src="static/images/measurement.png" alt="measurement" />Ölçüm
         </button></a

@@ -35,15 +35,24 @@
         <img class="brand-img" src="{% static 'images/brand-logo.png' %}" alt="brand-logo" />
       </div>
     </div>
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+      {% endfor %}
+    {% endif %}
     <div class="form-wrapper">
-      <form class="login-form" action="login" method="post">
+      <form class="login-form" method="post">
         {% csrf_token %}
         <div class="mb-3">
           <label for="exampleInputEmail1" class="form-label"
             >Kullanıcı Adı</label
           >
           <input
-            type="username"
+            type="text"
+            name="username"
             class="form-control"
             id="exampleInputEmail1"
             aria-describedby="emailHelp"
@@ -54,7 +63,7 @@
           <input
             type="password"
             class="form-control"
-            id="exampleInputPassword1"
+            name="password"
           />
         </div>
         <button type="submit" class="btn btn-primary login-btn">

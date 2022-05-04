@@ -41,22 +41,29 @@ body {
   height: 45vh;
 }
 
-.brand-name, .brand-logo {
-    text-align: center;
-    align-items: center;
+.brand-name,
+.brand-logo {
+  text-align: center;
+  align-items: center;
 }
 
 .brand-img {
-    height: auto;
-    width: 40%;
-    margin-top: 2%;
+  height: auto;
+  width: 40%;
+  margin-top: 2%;
 }
 
 .brand-name {
-    font-size: 75px;
-    font-weight: 400;
+  font-size: 75px;
+  font-weight: 400;
 }
 
 .white-text {
-    color: #ffffff;
+  color: #ffffff;
+}
+
+.alert {
+  margin-left: 35%;
+  margin-right: 35%;
+  margin-top: 1%;
 }

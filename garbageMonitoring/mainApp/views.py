@@ -30,12 +30,12 @@ from django.contrib import messages
     # distance = pulse_duration * 17150
     # distance = round(distance, 2)
 
-def index(request):
-    return render(request, 'index.html')
+def measurement(request):
+    return render(request, 'measurement.html')
 
 def get_ratio(request):
     binCapacity = 0
-    distance = 19
+    distance = 21
 
     if distance >= 0:
         if 0 < distance <= 20:
@@ -66,7 +66,20 @@ def efficiency(request):
     return render(request, 'efficiency.html')
 
 def loginUser(request):
-    return render(request, 'login.html')
+    if request.method == "POST":
+        username = request.POST['username']
+        password = request.POST['password']
+        user = authenticate(request, username = username, password = password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, ("Hoşgeldin"))
+            return redirect('landing')
+        else:
+            messages.success(request, ("Kullanıcı adı veya şifre hatalı!"))
+            return redirect('login')
+
+    else:
+        return render(request, 'login.html')
 
 def landing(request):
     return render(request, 'landing.html')
