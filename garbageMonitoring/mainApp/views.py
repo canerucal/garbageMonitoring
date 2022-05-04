@@ -35,9 +35,11 @@ def measurement(request):
     g = geocoder.ip('me')
     latitude = g.latlng[0]
     longitude = g.latlng[1]
+    place = g[0]
     return render(request, 'measurement.html',{
         'latitude': latitude,
-        'longitude' : longitude
+        'longitude' : longitude,
+        'place': place
     })
 
 def get_ratio(request):

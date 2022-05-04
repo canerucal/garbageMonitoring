@@ -86,8 +86,16 @@
         google.maps.Map(document.getElementById('map'), options);
 
         var marker = new google.maps.Marker({
-          position: {lat: 40.765, lng:29.9293},
+          position: {lat: {{latitude}}, lng: {{longitude}}},
           map: map
+        });
+
+        var infoWindow = new google.maps.InfoWindow({
+          content: '<h2>{{place}}</h2>'
+        });
+
+        marker.addListener('mouseover', function(){
+          infoWindow.open(map, marker);
         });
       }
     </script>
