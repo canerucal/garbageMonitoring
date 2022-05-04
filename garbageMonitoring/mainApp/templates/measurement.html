@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
+{% load widget_tweaks %}
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
@@ -71,9 +72,17 @@
       {% include 'partials/show.html' %}
     </div>
 
-    <div class="save-button">
-      <button type="button" class="btn btn-primary">Kutuyu Boşalt</button>
-    </div>
+    {% if submitted %}
+
+    {% else %}
+    <form method="POST" class="success-form">
+      {% csrf_token %}
+      <div class="save-button">
+        <input type="submit" class="btn btn-primary" value="Kutuyu Boşalt"></input>
+      </div>
+    </form>
+    {% endif %}
+
     <div id="map"></div>
     <script>
       function initMap(){
@@ -91,7 +100,7 @@
         });
 
         var infoWindow = new google.maps.InfoWindow({
-          content: '<h2>{{place}}</h2>'
+          content: '<h5>{{place}}</h5>'
         });
 
         marker.addListener('mouseover', function(){
@@ -108,4 +117,4 @@
   </body>
 </html>
 
-<!-- AIzaSyCDT6rodJQOx36sZpOUqvg5WnKyp05Rxv4 -->
+<!--Google API Key: AIzaSyCDT6rodJQOx36sZpOUqvg5WnKyp05Rxv4 -->

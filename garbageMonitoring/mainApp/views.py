@@ -1,7 +1,9 @@
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 import geocoder
+from .forms import DataEntryForm
 #import RPi.GPIO as GPIO
 
 # bu alana hesaplama gelecek, index fonksiyonunda simüle edildi. canlı çalışması için while döngüsü kurulmalı
@@ -31,20 +33,11 @@ import geocoder
     # distance = pulse_duration * 17150
     # distance = round(distance, 2)
 
-def measurement(request):
-    g = geocoder.ip('me')
-    latitude = g.latlng[0]
-    longitude = g.latlng[1]
-    place = g[0]
-    return render(request, 'measurement.html',{
-        'latitude': latitude,
-        'longitude' : longitude,
-        'place': place
-    })
-
 def get_ratio(request):
+    global binCapacity
+    global distance
     binCapacity = 0
-    distance = 21
+    distance = 100
 
     if distance >= 0:
         if 0 < distance <= 20:
@@ -61,8 +54,8 @@ def get_ratio(request):
         print('Distance must be over 0 !')
 
     #debugging
-    print("distance: ", distance)
-    print("binCapacity: ", binCapacity)
+    # print("distance: ", distance)
+    # print("binCapacity: ", binCapacity)
 
     return render(request, 'partials/show.html', {
         'binCapacity': binCapacity
@@ -92,3 +85,27 @@ def loginUser(request):
 
 def landing(request):
     return render(request, 'landing.html')
+
+def measurement(request):
+    g = geocoder.ip('me')
+    latitude = g.latlng[0]
+    longitude = g.latlng[1]
+    place = g[0]
+
+    submitted = False
+    if request.method == "POST":            
+        form = DataEntryForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect('/measurement?submitted=True')
+    else:
+        form = DataEntryForm
+        if 'submitted' in request.GET:
+            submitted = True
+    return render(request, 'measurement.html',{
+        'latitude': latitude,
+        'longitude' : longitude,
+        'place': place,
+        'form': form,
+        'submitted': submitted
+    })
