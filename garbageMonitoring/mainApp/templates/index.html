@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="{% static 'css/index.css' %}" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1 class="title">Garbage Monitoring System</h1>
+    <div class="trash-bin">
+      {% if binCapacity == 0 %}
+      <img src="static/images/0.png" alt="zeroGarbage" />
+      <p>Fill Ratio: 0%</p>
+      {% elif binCapacity == 25 %}
+      <img src="static/images/25.png" alt="%25 Garbage" />
+      <p>Fill Ratio: 25%</p>
+      {% elif binCapacity == 50 %}
+      <img src="static/images/50.png" alt="%50 Garbage" />
+      <p>Fill Ratio: 50%</p>
+      {% elif binCapacity == 75 %}
+      <img src="static/images/75.png" alt="%75 Garbage" />
+      <p>Fill Ratio: 75%</p>
+      {% elif binCapacity == 100 %}
+      <img src="static/images/100.png" alt="%100 Garbage" />
+      <p>Fill Ratio: 100%</p>
+      {% endif %}
+    </div>
+  </body>
+</html>
