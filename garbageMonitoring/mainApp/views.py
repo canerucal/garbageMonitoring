@@ -1,7 +1,7 @@
 from django.shortcuts import render
 #import RPi.GPIO as GPIO
 
-# bu alana hesaplama gelecek, index fonksiyonunda simüle edildi.
+# bu alana hesaplama gelecek, index fonksiyonunda simüle edildi. canlı çalışması için while döngüsü kurulmalı
 # def distanceFunction():
     # GPIO.setmode(GPIO.BCM)
     # GPIO.setwarnings(False)
@@ -29,8 +29,12 @@ from django.shortcuts import render
     # distance = round(distance, 2)
 
 def index(request):
+
+    return render(request, 'index.html')
+
+def get_ratio(request):
     binCapacity = 0
-    distance = 50
+    distance = 100
 
     if distance >= 0:
         if 0 < distance <= 20:
@@ -46,9 +50,16 @@ def index(request):
     else:
         print('Distance must be over 0 !')
 
-    print(distance)
-    print(binCapacity)
-                
-    return render(request, 'index.html', {
+    #debugging
+    print("distance: ", distance)
+    print("binCapacity: ", binCapacity)
+
+    return render(request, 'partials/show.html', {
         'binCapacity': binCapacity
     })
+
+def records(request):
+    return render(request, 'records.html')
+
+def efficiency(request):
+    return render(request, 'efficiency.html')
