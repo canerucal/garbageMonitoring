@@ -6,6 +6,13 @@ import geocoder
 from .models import garbageLog
 from datetime import datetime
 from dateutil.relativedelta import *
+from django.db.models import Sum
+import io
+import matplotlib
+import base64, urllib
+matplotlib.use('Agg')
+from matplotlib.figure import Figure
+import matplotlib.pyplot as plt
 #import RPi.GPIO as GPIO
 
 # bu alana hesaplama gelecek, index fonksiyonunda simüle edildi.
@@ -39,7 +46,7 @@ def get_ratio(request):
     global binCapacity
     global distance
     binCapacity = 0
-    distance = 50 #sensör verisi buraya gelecek.
+    distance = 100 #sensör verisi buraya gelecek.
 
     if distance >= 0:
         if 0 < distance <= 20:
@@ -75,7 +82,19 @@ def AllRecords(request):
     })
 
 def efficiency(request):
-    return render(request, 'efficiency.html')
+    dataCount = garbageLog.objects.all().count()
+    dataTotal = garbageLog.objects.aggregate(Sum('ratio'))
+    dataTotal = dataTotal['ratio__sum']
+
+    if dataTotal is None:
+        dataAverage = 0
+    else:
+        dataAverage = round((dataTotal / dataCount) *100)
+
+    return render(request, 'efficiency.html', {
+        'dataCount': dataCount,
+        'dataAverage': dataAverage
+        })
 
 def loginUser(request):
     if request.method == "POST":
@@ -145,3 +164,22 @@ def delete(request, eventID):
         'deleteRecord': deleteRecord
     }
     return redirect('kayitlar')
+
+def get_image_url(figure:Figure):
+    buffer = io.BytesIO()
+    figure.savefig(buffer,format='png')
+    buffer.seek(0)
+    value = base64.b64encode(buffer.read())
+    url = urllib.parse.quote(value)
+    return url
+
+def addlabels(x,y):
+    for i in range(len(x)):
+        dataLabel = f'{y[i]:,}%'
+        plt.text(i, y[i]*1.03, dataLabel.format(dataLabel).replace(',', '.'),
+        ha = 'center',
+        c = 'black', 
+        fontweight = 400,
+        fontfamily = 'roboto',
+        fontsize = 10.5
+    )
