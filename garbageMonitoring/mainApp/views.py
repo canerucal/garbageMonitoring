@@ -39,7 +39,7 @@ def get_ratio(request):
     global binCapacity
     global distance
     binCapacity = 0
-    distance = 10 #sensör verisi buraya gelecek.
+    distance = 50 #sensör verisi buraya gelecek.
 
     if distance >= 0:
         if 0 < distance <= 20:
