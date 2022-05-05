@@ -20,9 +20,11 @@ from mainApp import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.loginUser, name="login"),
-    path('measurement', views.measurement),
+    path('measurement', views.measurement, name='measurement'),
     path('get_ratio/', views.get_ratio),
-    path('records', views.records),
+    path('kayitlar', views.AllRecords, name='kayitlar'),
     path('efficiency', views.efficiency),
     path('landing', views.landing, name="landing"),
+    path('update/<str:eventID>', views.update, name='update'),
+    path('delete/<str:eventID>', views.delete, name='delete'),
 ]

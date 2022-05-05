@@ -3,7 +3,9 @@ from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
 import geocoder
-from .forms import DataEntryForm
+from .models import garbageLog
+from datetime import datetime
+from dateutil.relativedelta import *
 #import RPi.GPIO as GPIO
 
 # bu alana hesaplama gelecek, index fonksiyonunda simüle edildi.
@@ -37,7 +39,7 @@ def get_ratio(request):
     global binCapacity
     global distance
     binCapacity = 0
-    distance = 100 #sensör verisi buraya gelecek.
+    distance = 10 #sensör verisi buraya gelecek.
 
     if distance >= 0:
         if 0 < distance <= 20:
@@ -52,17 +54,25 @@ def get_ratio(request):
             binCapacity = 0
     else:
         print('Distance must be over 0 !')
+    global binCapacityPercentage
+    binCapacityPercentage = binCapacity/100
 
     #debugging
     # print("distance: ", distance)
     # print("binCapacity: ", binCapacity)
 
     return render(request, 'partials/show.html', {
-        'binCapacity': binCapacity
+        'binCapacity': binCapacity,
+        'binCapacityPercentage': binCapacityPercentage
     })
 
-def records(request):
-    return render(request, 'records.html')
+def AllRecords(request):
+    filteredList = garbageLog.objects.filter(
+    creationDate__range=[datetime.today() + relativedelta(weeks=-8), datetime.today()]
+    ).order_by('-creationDate')
+    return render(request, 'records.html', {
+        'filteredList': filteredList
+    })
 
 def efficiency(request):
     return render(request, 'efficiency.html')
@@ -94,18 +104,44 @@ def measurement(request):
 
     submitted = False
     if request.method == "POST":            
-        form = DataEntryForm(request.POST)
-        if form.is_valid():
+        ratio = binCapacityPercentage
+        form = garbageLog(ratio = ratio)
+        if ratio == 0:
+            messages.success(request, ("Çöp kutusu zaten boş !"))
+            return HttpResponseRedirect('/measurement?submitted=False')
+        else:
             form.save()
             return HttpResponseRedirect('/measurement?submitted=True')
     else:
-        form = DataEntryForm
         if 'submitted' in request.GET:
             submitted = True
     return render(request, 'measurement.html',{
         'latitude': latitude,
         'longitude' : longitude,
         'place': place,
-        'form': form,
-        'submitted': submitted
+        'submitted': submitted,
     })
+
+def update(request, eventID):
+    if request.method == "POST":
+        eventID = request.POST.get('eventID')
+        creationDate = request.POST.get('creationDate')
+        ratio = request.POST.get('ratio')
+
+        updated = garbageLog(
+            eventID = eventID,
+            creationDate = creationDate,
+            ratio = ratio
+        )
+        updated.save()
+        return redirect('kayitlar')
+
+    return redirect(request, 'records.html')
+
+def delete(request, eventID):
+    deleteRecord = garbageLog.objects.filter(eventID = eventID)
+    deleteRecord.delete()
+    context = {
+        'deleteRecord': deleteRecord
+    }
+    return redirect('kayitlar')

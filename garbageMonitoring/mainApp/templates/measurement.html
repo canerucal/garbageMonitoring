@@ -62,6 +62,18 @@
         </div>
       </div>
     </nav>
+    {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        {{ message }}
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+    {% endfor %}
+    {% endif %}
+    {% if submitted and ratio > 0 %}
+    <div class="alert alert-success" role="alert">
+      Veri başarıyla kaydedildi !
+    </div>
     <h1 class="title">Anlık Ölçüm Verisi</h1>
     <div
       class="trash-bin"
@@ -72,12 +84,31 @@
       {% include 'partials/show.html' %}
     </div>
 
-    <form method="POST" class="success-form">
+    <form method="POST" class="success-form" id="post-form">
       {% csrf_token %}
       <div class="save-button">
-        {% render_field form.ratio class="btn btn-primary" type="submit" value="Kutuyu Boşalt" id="submit-button" %}
+        <input value="Kutuyu Boşalt" type="submit" class="btn btn-primary">
       </div>
     </form>
+    {% else %}
+    <h1 class="title">Anlık Ölçüm Verisi</h1>
+    <div
+      class="trash-bin"
+      hx-get="/get_ratio/"
+      hx-trigger="every 1s"
+      hx-swap="innherhtml"
+    >
+      {% include 'partials/show.html' %}
+    </div>
+
+    <form method="POST" class="success-form" id="post-form">
+      {% csrf_token %}
+      <div class="save-button">
+        <input value="Kutuyu Boşalt" type="submit" class="btn btn-primary">
+      </div>
+    </form>
+    {% endif %}
+
 
     <div id="map"></div>
     <script>
@@ -109,7 +140,6 @@
     defer
     async
   ></script>
-
   </body>
 </html>
 
