@@ -6,7 +6,7 @@ import geocoder
 from .forms import DataEntryForm
 #import RPi.GPIO as GPIO
 
-# bu alana hesaplama gelecek, index fonksiyonunda simüle edildi. canlı çalışması için while döngüsü kurulmalı
+# bu alana hesaplama gelecek, index fonksiyonunda simüle edildi.
 # def distanceFunction():
     # GPIO.setmode(GPIO.BCM)
     # GPIO.setwarnings(False)
@@ -37,7 +37,7 @@ def get_ratio(request):
     global binCapacity
     global distance
     binCapacity = 0
-    distance = 100
+    distance = 100 #sensör verisi buraya gelecek.
 
     if distance >= 0:
         if 0 < distance <= 20:
