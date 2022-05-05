@@ -80,35 +80,13 @@
             <div class="card-column-item">
               <div class="card-column-body">
                 Toplam Veri Girişi<br />
-                <span class="card-daily-body-amount"> {{incomeToday}}₺</span>
+                <span class="card-column-body-amount"> {{incomeToday}}₺</span>
               </div>
             </div>
-            <div class="card-daily-item">
-              <div class="card-daily-body">
-                Günlük Net Kar<br />
-                <span class="card-daily-body-amount">{{profitToday}}₺</span>
-              </div>
-            </div>
-          </div>
-          <div class="card-month-year">
-            <div class="card-month-year-item">
-              <div class="card-month-body">
-                {{previousMonth}} Net Kar<br />
-                <span class="card-monthly-body-amount"
-                  >{{previousMonthProfit}}₺</span
-                >
-              </div>
-            </div>
-            <div class="card-month-year-item">
-              <div class="card-month-body">
-                {{thisMonth}} Net Kar<br />
-                <span class="card-monthly-body-amount">{{monthProfit}}₺</span>
-              </div>
-            </div>
-            <div class="card-month-year-item">
-              <div class="card-month-body">
-                {{thisYear}} Net Kar<br />
-                <span class="card-monthly-body-amount">{{yearProfit}}₺</span>
+            <div class="card-column-item">
+              <div class="card-column-body">
+                Verimlilik<br />
+                <span class="card-column-body-amount">{{profitToday}}₺</span>
               </div>
             </div>
           </div>
@@ -116,7 +94,7 @@
       </div>
       <div class="graph-container">
         <div class="graph-wrapper">
-          <div class="card-main-header">Son 6 Ay Ciro</div>
+          <div class="card-main-header">Son 6 Ay Verimlilik</div>
           <div class="graph-income">
             <img
               class="graph-img"
