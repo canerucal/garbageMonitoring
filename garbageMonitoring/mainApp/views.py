@@ -76,7 +76,7 @@ def get_ratio(request):
 def AllRecords(request):
     filteredList = garbageLog.objects.filter(
     creationDate__range=[datetime.today() + relativedelta(weeks=-8), datetime.today()]
-    ).order_by('-creationDate')
+    ).order_by('-eventID')
     return render(request, 'records.html', {
         'filteredList': filteredList
     })

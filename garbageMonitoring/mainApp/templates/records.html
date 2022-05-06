@@ -79,6 +79,7 @@
         <table class="table table-hover text-center align-middle">
           <thead class="sticky-header">
             <tr>
+              <th scope="col">ID</th>
               <th scope="col">Tarih</th>
               <th scope="col">Boşaltıldığındaki Yüzdesi</th>
               <th scope="col">Güncelle</th>
@@ -88,6 +89,7 @@
           <tbody>
             {% for data in filteredList %}
             <tr>
+              <td class="col-md-3">{{data.eventID}}</td>
               <td class="col-md-3">{{data.creationDate|date:"d.m.Y"}}</td>
               <td class="col-md-3">{{data.ratio}}</td>
               <td class="col-md-3">
