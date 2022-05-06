@@ -13,6 +13,7 @@ import base64, urllib
 matplotlib.use('Agg')
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
+from django.db.models.functions import TruncMonth
 #import RPi.GPIO as GPIO
 
 # bu alana hesaplama gelecek, index fonksiyonunda simüle edildi.
@@ -90,10 +91,66 @@ def efficiency(request):
         dataAverage = 0
     else:
         dataAverage = round((dataTotal / dataCount) *100)
+    
+        lastSixTotals = []
+    for i in graph:
+        lastSixTotals.append(i['totalOfMonth'])
+
+    xAxisGraph = []
+    xAxisGraph.append(beforeSixMonths.month)
+    for i in xAxisGraph:
+        if len(xAxisGraph) > 5:
+            break
+        elif i == 12:
+            i -= 11
+            xAxisGraph.append(i)
+        else:
+            i += 1
+            xAxisGraph.append(i)
+
+    today = datetime.today()
+    beforeSixMonths = today + relativedelta(months=-5)
+    beforeSixMonths = beforeSixMonths.replace(day=1)
+
+    months = {
+        '1': 'Ocak',
+        '2': 'Şubat',
+        '3': 'Mart',
+        '4': 'Nisan',
+        '5': 'Mayıs',
+        '6': 'Haziran',
+        '7': 'Temmuz',
+        '8': 'Ağustos',
+        '9': 'Eylül',
+        '10': 'Ekim',
+        '11': 'Kasım',
+        '12': 'Aralık'
+    }
+
+    graph = garbageLog.objects.annotate(
+        month=TruncMonth('creation_date')).filter(
+            data_entry_type = 'Gelir',
+            creation_date__range=[beforeSixMonths, today]
+        ).values('month').annotate(totalOfMonth=Sum('money_amount')).order_by('month')
+    
+    figure : Figure = plt.figure()
+    ax = figure.add_subplot(111)
+    xAxisGraph = list(map(str, xAxisGraph))
+    xAxisGraph = [months.get(e, e) for e in xAxisGraph]
+    addlabels(xAxisGraph, lastSixTotals)
+    ax.bar(xAxisGraph, lastSixTotals, color="#98C1FF")
+    ax.get_yaxis().set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    plt.plot()
+    url = get_image_url(figure)
+    plt.close()
 
     return render(request, 'efficiency.html', {
         'dataCount': dataCount,
-        'dataAverage': dataAverage
+        'dataAverage': dataAverage,
+        'image': url
         })
 
 def loginUser(request):
