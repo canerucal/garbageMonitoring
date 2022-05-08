@@ -94,84 +94,79 @@ def efficiency(request):
         dataAverage = round((dataTotal / dataCount) *100)
     
     
-    # today = datetime.today()
-    # beforeSixMonths = today + relativedelta(months=-5)
-    # beforeSixMonths = beforeSixMonths.replace(day=1)
-    # print(today)
+    today = datetime.today()
+    beforeSixMonths = today + relativedelta(months=-5)
+    beforeSixMonths = beforeSixMonths.replace(day=1)
+    print(today)
 
-    # months = {
-    #     '1': 'Ocak',
-    #     '2': 'Şubat',
-    #     '3': 'Mart',
-    #     '4': 'Nisan',
-    #     '5': 'Mayıs',
-    #     '6': 'Haziran',
-    #     '7': 'Temmuz',
-    #     '8': 'Ağustos',
-    #     '9': 'Eylül',
-    #     '10': 'Ekim',
-    #     '11': 'Kasım',
-    #     '12': 'Aralık'
-    # }
+    months = {
+        '1': 'Ocak',
+        '2': 'Şubat',
+        '3': 'Mart',
+        '4': 'Nisan',
+        '5': 'Mayıs',
+        '6': 'Haziran',
+        '7': 'Temmuz',
+        '8': 'Ağustos',
+        '9': 'Eylül',
+        '10': 'Ekim',
+        '11': 'Kasım',
+        '12': 'Aralık'
+    }
 
-    # graph = garbageLog.objects.annotate(
-    # month=TruncMonth('creationDate')).filter(
-    #     creationDate__range=[beforeSixMonths, today]
-    # ).values('month').annotate(totalOfMonth=Avg('ratio')).order_by('month')
+    graph = garbageLog.objects.annotate(
+    month=TruncMonth('creationDate')).filter(
+        creationDate__range=[beforeSixMonths, today]
+    ).values('month').annotate(totalOfMonth=Avg('ratio')).order_by('month')
 
-    # print(month)
+    print(month)
     
-    # lastSixTotals = []
-    # for i in graph:
-    #     lastSixTotals.append(i['totalOfMonth'])
-    #     print(i)
-
-    #     if i is not None:
-    #         lastSixTotals.append(0)
-    #         print(i, 'none değil')
+    lastSixTotals = []
+    for i in graph:
+        lastSixTotals.append(i['totalOfMonth'])
+        if i is None:
+            print()
 
 
-    # key-value yap. boş olan ayı bul ve orayı 0 yap
-    # xAxisGraph = []
-    # xAxisGraph.append(beforeSixMonths.month)
+    #key-value yap. boş olan ayı bul ve orayı 0 yap
+    xAxisGraph = []
+    xAxisGraph.append(beforeSixMonths.month)
 
-    # for i in xAxisGraph:
-    #     if len(xAxisGraph) > 5:
-    #         break
-    #     elif i == 12:
-    #         i -= 11
-    #         xAxisGraph.append(i)
-    #     else:
-    #         i += 1
-    #         xAxisGraph.append(i)
+    for i in xAxisGraph:
+        if len(xAxisGraph) > 5:
+            break
+        elif i == 12:
+            i -= 11
+            xAxisGraph.append(i)
+        else:
+            i += 1
+            xAxisGraph.append(i)
 
-    # if len(lastSixTotals) < len(xAxisGraph):
-    #     for i in lastSixTotals:
-    #         if i <= 0:
-    #             lastSixTotals.append(0)
-    #             print(i)
-    #             print('burada değil')
-    #         else:
-    #             print('burada')
+    if len(lastSixTotals) < len(xAxisGraph):
+        for i in lastSixTotals:
+            if i <= 0:
+                print('burada değil')
+            else:
+                lastSixTotals.append(0)
 
-    # figure : Figure = plt.figure()
-    # ax = figure.add_subplot(111)
-    # xAxisGraph = list(map(str, xAxisGraph))
-    # xAxisGraph = [months.get(e, e) for e in xAxisGraph]
-    # addlabels(xAxisGraph, lastSixTotals)
-    # ax.bar(xAxisGraph, lastSixTotals, color="#98C1FF")
-    # ax.get_yaxis().set_visible(False)
-    # ax.spines['top'].set_visible(False)
-    # ax.spines['right'].set_visible(False)
-    # ax.spines['left'].set_visible(False)
-    # plt.plot()
-    # url = get_image_url(figure)
-    # plt.close()
+    figure : Figure = plt.figure()
+    ax = figure.add_subplot(111)
+    xAxisGraph = list(map(str, xAxisGraph))
+    xAxisGraph = [months.get(e, e) for e in xAxisGraph]
+    addlabels(xAxisGraph, lastSixTotals)
+    ax.bar(xAxisGraph, lastSixTotals, color="#98C1FF")
+    ax.get_yaxis().set_visible(False)
+    ax.spines['top'].set_visible(False)
+    ax.spines['right'].set_visible(False)
+    ax.spines['left'].set_visible(False)
+    plt.plot()
+    url = get_image_url(figure)
+    plt.close()
 
     return render(request, 'efficiency.html', {
         'dataCount': dataCount,
         'dataAverage': dataAverage,
-        # 'image': url
+        'image': url
         })
 
 def loginUser(request):
