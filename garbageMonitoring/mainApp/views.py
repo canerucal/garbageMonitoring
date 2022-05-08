@@ -1,3 +1,4 @@
+from calendar import month
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
@@ -6,7 +7,7 @@ import geocoder
 from .models import garbageLog
 from datetime import datetime
 from dateutil.relativedelta import *
-from django.db.models import Sum
+from django.db.models import Sum, Avg
 import io
 import matplotlib
 import base64, urllib
@@ -92,25 +93,11 @@ def efficiency(request):
     else:
         dataAverage = round((dataTotal / dataCount) *100)
     
-    #     lastSixTotals = []
-    # for i in graph:
-    #     lastSixTotals.append(i['totalOfMonth'])
-
-    # xAxisGraph = []
-    # xAxisGraph.append(beforeSixMonths.month)
-    # for i in xAxisGraph:
-    #     if len(xAxisGraph) > 5:
-    #         break
-    #     elif i == 12:
-    #         i -= 11
-    #         xAxisGraph.append(i)
-    #     else:
-    #         i += 1
-    #         xAxisGraph.append(i)
-
+    
     # today = datetime.today()
     # beforeSixMonths = today + relativedelta(months=-5)
     # beforeSixMonths = beforeSixMonths.replace(day=1)
+    # print(today)
 
     # months = {
     #     '1': 'Ocak',
@@ -128,11 +115,45 @@ def efficiency(request):
     # }
 
     # graph = garbageLog.objects.annotate(
-    #     month=TruncMonth('creation_date')).filter(
-    #         data_entry_type = 'Gelir',
-    #         creation_date__range=[beforeSixMonths, today]
-    #     ).values('month').annotate(totalOfMonth=Sum('money_amount')).order_by('month')
+    # month=TruncMonth('creationDate')).filter(
+    #     creationDate__range=[beforeSixMonths, today]
+    # ).values('month').annotate(totalOfMonth=Avg('ratio')).order_by('month')
+
+    # print(month)
     
+    # lastSixTotals = []
+    # for i in graph:
+    #     lastSixTotals.append(i['totalOfMonth'])
+    #     print(i)
+
+    #     if i is not None:
+    #         lastSixTotals.append(0)
+    #         print(i, 'none değil')
+
+
+    # key-value yap. boş olan ayı bul ve orayı 0 yap
+    # xAxisGraph = []
+    # xAxisGraph.append(beforeSixMonths.month)
+
+    # for i in xAxisGraph:
+    #     if len(xAxisGraph) > 5:
+    #         break
+    #     elif i == 12:
+    #         i -= 11
+    #         xAxisGraph.append(i)
+    #     else:
+    #         i += 1
+    #         xAxisGraph.append(i)
+
+    # if len(lastSixTotals) < len(xAxisGraph):
+    #     for i in lastSixTotals:
+    #         if i <= 0:
+    #             lastSixTotals.append(0)
+    #             print(i)
+    #             print('burada değil')
+    #         else:
+    #             print('burada')
+
     # figure : Figure = plt.figure()
     # ax = figure.add_subplot(111)
     # xAxisGraph = list(map(str, xAxisGraph))
