@@ -87,7 +87,7 @@
             </tr>
           </thead>
           <tbody>
-            {% for data in filteredList %}
+            {% for data in allList %}
             <tr>
               <td class="col-md-3">{{data.eventID}}</td>
               <td class="col-md-3">{{data.creationDate|date:"d.m.Y"}}</td>
@@ -115,7 +115,7 @@
       </div>
     </div>
         <!-- Edit Modal HTML -->
-        <!-- {% for i in filteredList %}
+        <!-- {% for i in allList %}
         <div id="editRecordModal-{{forloop.counter}}" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">
@@ -163,7 +163,7 @@
         </div>
         {% endfor %} -->
         <!-- Delete Modal HTML -->
-        {% for i in filteredList %}
+        {% for i in allList %}
         <div id="deleteRecordModal-{{forloop.counter}}" class="modal fade">
           <div class="modal-dialog">
             <div class="modal-content">

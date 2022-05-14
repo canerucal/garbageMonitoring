@@ -76,11 +76,9 @@ def get_ratio(request):
     })
 
 def AllRecords(request):
-    filteredList = garbageLog.objects.filter(
-    creationDate__range=[datetime.today() + relativedelta(weeks=-8), datetime.today()]
-    ).order_by('-eventID')
+    allList = garbageLog.objects.all()
     return render(request, 'records.html', {
-        'filteredList': filteredList
+        'allList': allList
     })
 
 def efficiency(request):
@@ -93,11 +91,9 @@ def efficiency(request):
     else:
         dataAverage = round((dataTotal / dataCount) *100)
     
-    
     today = datetime.today()
     beforeSixMonths = today + relativedelta(months=-5)
     beforeSixMonths = beforeSixMonths.replace(day=1)
-    print(today)
 
     months = {
         '1': 'Ocak',
@@ -118,15 +114,14 @@ def efficiency(request):
     month=TruncMonth('creationDate')).filter(
         creationDate__range=[beforeSixMonths, today]
     ).values('month').annotate(totalOfMonth=Avg('ratio')).order_by('month')
-
-    print(month)
     
+    for i in graph:
+        a = (i['month'])
+        print(a)
+
     lastSixTotals = []
     for i in graph:
         lastSixTotals.append(i['totalOfMonth'])
-        if i is None:
-            print()
-
 
     #key-value yap. boş olan ayı bul ve orayı 0 yap
     xAxisGraph = []
@@ -142,12 +137,7 @@ def efficiency(request):
             i += 1
             xAxisGraph.append(i)
 
-    if len(lastSixTotals) < len(xAxisGraph):
-        for i in lastSixTotals:
-            if i <= 0:
-                print('burada değil')
-            else:
-                lastSixTotals.append(0)
+
 
     figure : Figure = plt.figure()
     ax = figure.add_subplot(111)
