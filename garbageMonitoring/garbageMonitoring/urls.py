@@ -25,6 +25,6 @@ urlpatterns = [
     path('kayitlar', views.AllRecords, name='kayitlar'),
     path('efficiency', views.efficiency),
     path('landing', views.landing, name="landing"),
-    path('update/<str:eventID>', views.update, name='update'),
-    path('delete/<str:eventID>', views.delete, name='delete'),
+    # path('update/<str:eventID>', views.update, name='update'),
+    path('delete/<str:eventID>', views.delete, name='delete')
 ]

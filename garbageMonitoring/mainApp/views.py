@@ -214,21 +214,21 @@ def measurement(request):
         'submitted': submitted,
     })
 
-def update(request, eventID):
-    if request.method == "POST":
-        eventID = request.POST.get('eventID')
-        creationDate = request.POST.get('creationDate')
-        ratio = request.POST.get('ratio')
+# def update(request, eventID):
+#     if request.method == "POST":
+#         eventID = request.POST.get('eventID')
+#         creationDate = request.POST.get('creationDate')
+#         ratio = request.POST.get('ratio')
 
-        updated = garbageLog(
-            eventID = eventID,
-            creationDate = creationDate,
-            ratio = ratio
-        )
-        updated.save()
-        return redirect('kayitlar')
+#         updated = garbageLog(
+#             eventID = eventID,
+#             creationDate = creationDate,
+#             ratio = ratio
+#         )
+#         updated.save()
+#         return redirect('kayitlar')
 
-    return redirect(request, 'records.html')
+#     return redirect(request, 'records.html')
 
 def delete(request, eventID):
     deleteRecord = garbageLog.objects.filter(eventID = eventID)
