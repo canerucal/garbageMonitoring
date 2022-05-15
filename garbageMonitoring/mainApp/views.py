@@ -15,6 +15,7 @@ from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 from django.db.models.functions import TruncMonth
 import RPi.GPIO as GPIO
+import time
 
 def get_ratio(request):
     global binCapacity
