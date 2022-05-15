@@ -21,7 +21,6 @@ def get_ratio(request):
     global binCapacity
     global distance
     binCapacity = 0
-
     GPIO.setmode(GPIO.BCM)
     GPIO.setwarnings(False)
     TRIG = 23
@@ -46,16 +45,15 @@ def get_ratio(request):
 
     distance = pulse_duration * 17150
     distance = round(distance, 2)
-    #distance = 50 #sensör verisi buraya gelecek.
 
     if distance >= 0:
-        if 0 < distance <= 20:
+        if 0 < distance <= 5:
             binCapacity = 100
-        elif 20 < distance <= 50:
+        elif 6 < distance <= 15:
             binCapacity = 75
-        elif 51 <= distance <= 80:
+        elif 16 <= distance <= 25:
             binCapacity = 50
-        elif 81 <= distance < 120:
+        elif 26 <= distance < 35:
             binCapacity = 25
         else:
             binCapacity = 0
