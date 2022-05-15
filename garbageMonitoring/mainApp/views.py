@@ -1,4 +1,3 @@
-from calendar import month
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.contrib.auth import authenticate, login
@@ -15,40 +14,38 @@ matplotlib.use('Agg')
 from matplotlib.figure import Figure
 import matplotlib.pyplot as plt
 from django.db.models.functions import TruncMonth
-#import RPi.GPIO as GPIO
-
-# bu alana hesaplama gelecek, index fonksiyonunda simüle edildi.
-# def distanceFunction():
-    # GPIO.setmode(GPIO.BCM)
-    # GPIO.setwarnings(False)
-    # TRIG = 23
-    # ECHO = 24
-    # GPIO.setup(TRIG,GPIO.OUT)
-    # GPIO.setup(ECHO,GPIO.IN)
-    # binCapacity = "Empty"
-    # global val1
-    # GPIO.output(TRIG, False)
-    # time.sleep(2)
-
-    # GPIO.output(TRIG, True)
-    # time.sleep(0.00001)
-    # GPIO.output(TRIG, False)
-    # while GPIO.input(ECHO)==0:
-    #     pulse_start = time.time()
-
-    # while GPIO.input(ECHO)==1:
-    #         pulse_end = time.time()
-
-    # pulse_duration = pulse_end - pulse_start
-
-    # distance = pulse_duration * 17150
-    # distance = round(distance, 2)
+import RPi.GPIO as GPIO
 
 def get_ratio(request):
     global binCapacity
     global distance
     binCapacity = 0
-    distance = 50 #sensör verisi buraya gelecek.
+
+    GPIO.setmode(GPIO.BCM)
+    GPIO.setwarnings(False)
+    TRIG = 23
+    ECHO = 24
+    GPIO.setup(TRIG,GPIO.OUT)
+    GPIO.setup(ECHO,GPIO.IN)
+    binCapacity = "Empty"
+    global val1
+    GPIO.output(TRIG, False)
+    time.sleep(2)
+
+    GPIO.output(TRIG, True)
+    time.sleep(0.00001)
+    GPIO.output(TRIG, False)
+    while GPIO.input(ECHO)==0:
+        pulse_start = time.time()
+
+    while GPIO.input(ECHO)==1:
+            pulse_end = time.time()
+
+    pulse_duration = pulse_end - pulse_start
+
+    distance = pulse_duration * 17150
+    distance = round(distance, 2)
+    #distance = 50 #sensör verisi buraya gelecek.
 
     if distance >= 0:
         if 0 < distance <= 20:
@@ -114,30 +111,14 @@ def efficiency(request):
     month=TruncMonth('creationDate')).filter(
         creationDate__range=[beforeSixMonths, today]
     ).values('month').annotate(totalOfMonth=Avg('ratio')).order_by('month')
-    
-    for i in graph:
-        a = (i['month'])
-        print(a)
 
     lastSixTotals = []
     for i in graph:
         lastSixTotals.append(i['totalOfMonth'])
 
-    #key-value yap. boş olan ayı bul ve orayı 0 yap
     xAxisGraph = []
-    xAxisGraph.append(beforeSixMonths.month)
-
-    for i in xAxisGraph:
-        if len(xAxisGraph) > 5:
-            break
-        elif i == 12:
-            i -= 11
-            xAxisGraph.append(i)
-        else:
-            i += 1
-            xAxisGraph.append(i)
-
-
+    for i in graph:
+        xAxisGraph.append(i['month'].month)
 
     figure : Figure = plt.figure()
     ax = figure.add_subplot(111)
