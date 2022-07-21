@@ -17,7 +17,7 @@ Trash discharging percentage is logging on system, and efficiency of system can 
 On efficiency graph section, user can see the 6 months trend.
 
 ## Technologies
-Django Web Framework, Python and a Raspberry Pi.
+Django Web Framework, HTML, CSS, JS, Python and a Raspberry Pi.
 
 ## How to setup
 `git clone https://github.com/canerucal/May-22_garbageMonitoring.git`
