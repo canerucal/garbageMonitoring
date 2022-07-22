@@ -38,4 +38,4 @@ Django Web Framework, HTML, CSS, JS, Python and a Raspberry Pi.
 
 `python manage.py runserver`
 
-And also you need to create a database for logging. Table and column names can be found on models.py.
+And also you need to create a database for logging. Table and column names can be found on models.py
