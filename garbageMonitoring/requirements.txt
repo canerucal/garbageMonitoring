@@ -11,6 +11,7 @@ geocoder==1.38.1
 idna==3.3
 psycopg2==2.9.3
 python-dateutil==2.8.2
+python-decouple==3.6
 ratelim==0.1.6
 requests==2.27.1
 six==1.16.0
