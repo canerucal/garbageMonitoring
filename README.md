@@ -24,7 +24,7 @@ Django Web Framework, HTML, CSS, JS, Python and a Raspberry Pi.
 
 `cd garbageMonitoring`
 
-`python3 -m venv venv`
+`python3 -m venv env`
 
 `source env/bin/activate`
 
